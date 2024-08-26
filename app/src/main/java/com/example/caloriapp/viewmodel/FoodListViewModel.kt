@@ -37,11 +37,10 @@ class FoodListViewModel (application: Application) : AndroidViewModel(applicatio
     private fun getRoomDatabaseData(){
         foodLoading.value = true
         viewModelScope.launch (Dispatchers.IO){
-            val foodList = foodApiService.getFoodDetail()
-
             withContext(Dispatchers.Main) {
+                val foodList = BesinDatabase(getApplication()).besinDao().getAllFood()
                 foodLoading.value = false
-                saveRoomDatabase(foodList)
+                showFoodList(foodList)
             }
         }
     }
